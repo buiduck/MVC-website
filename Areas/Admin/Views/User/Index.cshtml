@@ -1,0 +1,65 @@
+﻿@model List<testwebmvc.Context.User>
+@{
+    ViewBag.Title = "Index"; 
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    h1 {
+        margin-left: 260px;
+        margin-bottom: 30px;
+        font-weight: 700;
+    }
+
+    body {
+        width: 100%;
+        background-color: #fff0f5;
+    }
+
+    .table {
+        margin-left: 240px;
+    }
+
+    .action-link {
+        color: #ba55d3;
+        text-decoration: none;
+        border: 1px solid #9370db;
+        border: 1px solid #9370db;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+        .action-link:hover {
+            background-color: #9370db;
+            color: #ffffff;
+        }
+
+   
+</style>
+
+
+    <h1>User Management</h1>
+
+    <table class="table">
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>Is Admin?</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => user.Firstname)</td>
+                <td>@Html.DisplayFor(modelItem => user.Lastname)</td>
+                <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                <td>@Html.DisplayFor(modelItem => user.IsAdmin)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = user.id }, new { @class = "action-link" })
+                    @Html.ActionLink("Details", "Details", new { id = user.id }, new { @class = "action-link" })
+                    @Html.ActionLink("Delete", "Delete", new { id = user.id }, new { @class = "action-link" })
+                </td>
+            </tr>
+        }
+    </table>

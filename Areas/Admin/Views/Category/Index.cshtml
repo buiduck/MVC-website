@@ -1,0 +1,116 @@
+﻿@model IEnumerable<testwebmvc.Context.Category>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Quản lý danh mục</h1>
+<style>
+    h1 {
+        margin-left: 260px;
+        margin-bottom: 30px;
+        font-weight: 700;
+    }
+    body {
+        width: 100%;
+        background-color: #fff0f5;
+    }
+
+    .table {
+        margin-left: 240px;
+    }
+    .action-link {
+        color: #ba55d3;
+        text-decoration: none;
+        border: 1px solid #9370db;
+        border: 1px solid #9370db;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+        .action-link:hover {
+            background-color: #9370db;
+            color: #ffffff;
+        }
+    .custom-button {
+        margin-left: 250px;
+    }
+
+        .custom-button .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #9370db;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+            .custom-button .btn:hover {
+                background-color: #8e72a9;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+
+
+</style>
+<p class="custom-button">
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Slug)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShowOnHomePage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOnUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedOnUtc)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShowOnHomePage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOnUtc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedOnUtc)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "action-link" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "action-link" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "action-link" })
+            </td>
+        </tr>
+    }
+</table>

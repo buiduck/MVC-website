@@ -43,6 +43,11 @@ namespace testwebmvc.Areas.Admin.Controllers
                 lstProduct = objDBContext.Products.ToList();
             }
             ViewBag.CurrentFilter = SearchString;
+            // Kiểm tra xem có sản phẩm nào được tìm thấy không
+            if (!lstProduct.Any())
+            {
+                ViewBag.Message = "Không có sản phẩm phù hợp với từ khóa";
+            }
             //so luong item trong 1 trang =4
             int pageSize = 4;
             int pageNumber = (page ?? 1);

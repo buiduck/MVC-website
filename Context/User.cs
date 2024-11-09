@@ -1,4 +1,4 @@
-namespace testwebmvc.Context
+﻿namespace testwebmvc.Context
 {
     using System;
     using System.Collections.Generic;
@@ -17,11 +17,14 @@ namespace testwebmvc.Context
         [Required]
         [StringLength(50)]
         public string Lastname { get; set; }
-        [Required]
+
+
+        [Required(ErrorMessage ="{0} là bắt buộc")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
-        [StringLength(50)]
+        [StringLength(50,ErrorMessage ="{0} dài từ {2} tới {1} ký tự",MinimumLength =8)]
         public string Email { get; set; }
-        [StringLength(50)]
+        [Required(ErrorMessage = "{0} là bắt buộc")]
+        [StringLength(50, ErrorMessage = "{0} dài từ {2} tới {1} ký tự", MinimumLength = 1)]
         public string Password { get; set; }
 
         public bool? IsAdmin { get; set; }

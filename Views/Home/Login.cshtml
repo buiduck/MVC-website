@@ -15,18 +15,19 @@
             <div class="card-body">
                 @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                 {
+                    <span class="text-danger text-center py-2">@ViewBag.ErrorMessage </span>
                     @Html.AntiForgeryToken()
-                 
+                    @*@Html.ValidationSummary()*@
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Email)
-                        @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.LabelFor(m => Model.Email)
+                        @Html.TextBoxFor(m => Model.Email, "", new { @class = "form-control", @placeholder = "Email" })
+                        @Html.ValidationMessageFor(m => Model.Email, "", new { @class = "text-danger" })
 
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Password)
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        @Html.LabelFor(m => Model.Password)
+                        @Html.PasswordFor(m => Model.Password, new { @class = "form-control", @placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => Model.Password, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <a href="#" class="float-right">Forgot password?</a>

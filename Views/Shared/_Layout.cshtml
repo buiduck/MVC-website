@@ -11,8 +11,7 @@
     <link href="~/Content/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
     <!-- jQuery -->
-    <script src="~/Scripts/js/jquery-2.0.0.min.js" type="text/javascript"></script>
-
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <!-- Bootstrap4 files-->
     <script src="~/Scripts/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     <link href="~/Content/css/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -26,6 +25,9 @@
     <!-- custom javascript -->
     <script src="~/Scripts/js/script.js" type="text/javascript"></script>
     <script src="~/Library/ckeditor/ckeditor.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @RenderSection("Scripts", required: false)
 
 </head>
@@ -75,6 +77,7 @@
                                         <li>
                                             <a href="~/Home/Logout" class="btn btn-warning">Logout </a>
                                         </li>
+                                        <span><a href="@Url.Action("ChangePassword", "Home")">=> Đổi mật khẩu</a></span>
                                     }
                                     else
                                     {
@@ -90,7 +93,7 @@
                                 </li>
                             </div>
                             <div class="widget-header mr-3">
-                                <a href="#" class="widget-view">
+                                <a href="@Url.Action("OrderHistory","Order")" class="widget-view">
                                     <div class="icon-area">
                                         <i class="fa fa-store"></i>
                                     </div>

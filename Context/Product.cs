@@ -18,7 +18,7 @@ namespace testwebmvc.Context
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Avatar is required.")]
-        [StringLength(100)]
+
         public string Avatar { get; set; }
 
         [Required(ErrorMessage = "Category ID is required.")]
@@ -36,14 +36,14 @@ namespace testwebmvc.Context
         public double? Price { get; set; }
         [Required(ErrorMessage = "PriceDiscount is required.")]
         public double? PriceDiscount { get; set; }
-
+        [Required(ErrorMessage = "TypeId is required.")]
         public int? TypeId { get; set; }
-
+        [Required(ErrorMessage = "Slug is required.")]
         [StringLength(50)]
         public string Slug { get; set; }
-
+        [Required(ErrorMessage = "Brand is required.")]
         public int? BrandId { get; set; }
-
+        
         public bool? Deleted { get; set; }
 
         public bool? ShowOnHomePage { get; set; }

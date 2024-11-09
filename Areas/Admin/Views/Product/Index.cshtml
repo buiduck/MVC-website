@@ -137,10 +137,10 @@
         </p>>
         @using (Html.BeginForm("Index", "Product", FormMethod.Get))
         {
-           <p class="search-bar" style="margin-left: 250px;">
-               Tìm kiếm sản phẩm @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-               <input type="submit" value="Tìm kiếm" class="btn-search" />
-           </p>
+            <p class="search-bar" style="margin-left: 250px;">
+                Tìm kiếm sản phẩm @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Tìm kiếm" class="btn-search" />
+            </p>
         }
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
@@ -168,7 +168,7 @@
         </th>
 
         <th></th>
-    </tr>
+    </tr> 
 
     @foreach (var item in Model)
     {
@@ -206,7 +206,13 @@
         </tr>
     }
 </table>
-         <div style="margin-left:250px;">
-        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+<div style="margin-left:250px;">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-warning" style="margin-left: 30px; margin-right:250px">
+            @ViewBag.Message
         </div>
+    }
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+</div>

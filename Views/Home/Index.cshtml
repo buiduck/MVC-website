@@ -25,6 +25,12 @@
 </style>
 
 <div class="container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="success-message" class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
     <!-- ========================= SECTION MAIN  ========================= -->
     <section class="section-main padding-y">
         <main class="card">
@@ -295,16 +301,16 @@
         <div class="row row-sm">
             @foreach (var item in Model.ListProduct.Where(n => n.TypeId == 1).Take(12))
             {
-        <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-            <div href="#" class="card card-sm card-product-grid">
-                <a href="@Url.Action("Detail", "Product", new {id=item.id})" class="img-wrap"> <img src="@item.Avatar"> </a>
-                <figcaption class="info-wrap">
-                    <a href="@Url.Action("Detail", "Product", new {id=item.id})" class="title">@item.Name</a>
-                    <div class="price mt-1">@item.Price</div> <!-- price-wrap.// -->
-                </figcaption>
-            </div>
-        </div> <!-- col.// -->
-            }         
+                <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                    <div href="#" class="card card-sm card-product-grid">
+                        <a href="@Url.Action("Detail", "Product", new {id=item.id})" class="img-wrap"> <img src="@item.Avatar"> </a>
+                        <figcaption class="info-wrap">
+                            <a href="@Url.Action("Detail", "Product", new {id=item.id})" class="title">@item.Name</a>
+                            <div class="price mt-1">@item.Price</div> <!-- price-wrap.// -->
+                        </figcaption>
+                    </div>
+                </div> <!-- col.// -->
+            }
 
         </div> <!-- row.// -->
     </section>
@@ -378,7 +384,7 @@
     </section>
     <!-- =============== SECTION REGION .//END =============== -->
     <!-- button len tren-->
-       <button onclick="topFunction()" id="myBtn" title="Go to top"> <i class="fa fa-angle-double-up"></i> </button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"> <i class="fa fa-angle-double-up"></i> </button>
     <!-- button len tren-->
 
     <article class="my-4">
@@ -461,5 +467,12 @@
         }, 15);
     }
 
-
+    // Kiểm tra xem thông báo có hiển thị hay không
+    var successMessage = document.getElementById('success-message');
+    if (successMessage) {
+        // Ẩn thông báo sau 3 giây (3000ms)
+        setTimeout(function () {
+            successMessage.style.display = 'none';
+        }, 3000);
+    }
 </script>

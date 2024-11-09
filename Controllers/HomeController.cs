@@ -13,7 +13,7 @@ namespace testwebmvc.Controllers
 {
     public class HomeController : Controller
     {
-       DBContext objDBContext = new DBContext();
+        DBContext objDBContext = new DBContext();
         public ActionResult Index()
         {
             HomeModel objHomeModel = new HomeModel();
@@ -34,13 +34,13 @@ namespace testwebmvc.Controllers
         {
             return View();
         }
-        public ActionResult Sale ()
+        public ActionResult Sale()
         {
             return View();
         }
 
         [HttpGet]
-       public ActionResult Register()
+        public ActionResult Register()
         {
             return View();
         }
@@ -90,15 +90,15 @@ namespace testwebmvc.Controllers
         {
             return View();
         }
-     
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(User user)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrEmpty(user.Email) && !string.IsNullOrEmpty(user.Password))
             {
-                var f_password = GetMD5(password);
-                var data = objDBContext.Users.Where(s => s.Email.Equals(email) && s.Password.Equals(f_password)).ToList();
+                var f_password = GetMD5(user.Password);
+                var data = objDBContext.Users.Where(s => s.Email.Equals(user.Email) && s.Password.Equals(f_password)).ToList();
                 if (data.Count() > 0)
                 {
                     //add session
@@ -114,6 +114,8 @@ namespace testwebmvc.Controllers
                     return RedirectToAction("Login");
                 }
             }
+
+            ViewBag.ErrorMessage = "Dữ liệu không đúng, vui lòng thử lại!";
             return View();
         }
         //Logout
@@ -122,5 +124,42 @@ namespace testwebmvc.Controllers
             Session.Clear();//remove session
             return RedirectToAction("Login");
         }
+
+        // doi mat khau
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Lấy thông tin người dùng từ session
+                var userId = (int)Session["idUser"];
+                var user = objDBContext.Users.Find(userId);
+
+                // Kiểm tra mật khẩu hiện tại
+                var hashedCurrentPassword = GetMD5(model.CurrentPassword);
+                if (user.Password != hashedCurrentPassword)
+                {
+                    ModelState.AddModelError("CurrentPassword", "Mật khẩu hiện tại không đúng.");
+                    return View(model);
+                }
+
+                // Cập nhật mật khẩu mới
+                user.Password = GetMD5(model.NewPassword);
+                objDBContext.SaveChanges();
+
+                TempData["SuccessMessage"] = "Đổi mật khẩu thành công.";
+                return RedirectToAction("Index"); 
+            }
+
+            return View(model);
+        }
+
+
     }
 }

@@ -13,7 +13,6 @@ namespace testwebmvc.Context
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(50)]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Slug is required.")]
         [StringLength(100)]
         public string Avatar { get; set; }
         [Required(ErrorMessage = "Slug is required.")]

@@ -1,0 +1,333 @@
+﻿@model IEnumerable<testwebmvc.Models.CartModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Thiết lập kiểu cho container của thông báo */
+    #notification-container {
+        position: fixed;
+        top: 150px;
+        right: 50px;
+        width: 300px;
+        z-index: 1000;
+    }
+
+    /* Thiết lập kiểu cho thông báo */
+    #notification-message {
+        background-color: #28a745;
+        color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+
+    .dlist-align dt {
+        width: 120px;
+        word-wrap: break-word;
+        font-weight: 700;
+        font-size: larger;
+    }
+
+    .dlist-align dd {
+        width: 120px;
+        word-wrap: break-word;
+        font-weight: 700;
+        font-size: larger;
+    }
+
+    b, strong {
+        font-weight: bold;
+    }
+</style>
+
+
+<script type="text/javascript">
+    $(function () {
+        let productIdToRemove;
+
+        $(".remove-cart").click(function () {
+            productIdToRemove = $(this).data("product-id");
+            $("#confirmDeleteModal").modal('show');
+            return false;
+        });
+
+        $("#confirmDeleteBtn").click(function () {
+            var model = {};
+            model.id = productIdToRemove;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Remove", "Cart")',
+                data: JSON.stringify(model),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.Success) {
+                        showNotification("Sản phẩm đã được xóa khỏi giỏ hàng.", true);
+                        $('#CartCount').text(parseInt($('#CartCount').text()) - 1);
+                        $("#product-id-" + model.id).remove();
+                        // Cập nhật tổng giá trên giao diện
+                        $('#totalCartPrice').text(data.TotalCartPrice);
+                        $('#totalCartPriceSummary').text(data.TotalCartPrice);
+                        $(`#product-id-${model.id}`).empty();
+                    } else {
+                        showNotification("Không thể xóa sản phẩm khỏi giỏ hàng!", false);
+                    }
+                },
+                error: function () {
+                    showNotification("Lỗi trong khi xóa sản phẩm", false);
+                }
+            });
+            $("#confirmDeleteModal").modal('hide');
+        });
+
+        // nút cập nhật
+        $(".product-quantity").change(function () {
+            var productId = $(this).data("productId");
+            var newQuantity = $(`#product-quantity-${productId}`).val();
+
+            console.log(productId);
+            console.log(newQuantity);
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("UpdateCartItem", "Cart")',
+                data: {
+                    ProductId: productId,
+                    Quantity: newQuantity
+                },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.Success) {
+                        // Cập nhật giá sản phẩm
+                        $(this).parent().siblings('td').find('.item-price').text(data.CartItemPrice);
+
+                        // Cập nhật tổng giá
+                        $('#totalCartPrice').text(data.TotalCartPrice);
+                        $('#totalCartPriceSummary').text(data.TotalCartPrice);
+
+                        // Hiển thị thông báo thành công
+                        showNotification("Đã cập nhật giỏ hàng thành công!", true);
+                    } else {
+                        // Hiển thị thông báo lỗi
+                        showNotification("Lỗi khi cập nhật giỏ hàng!", false);
+                    }
+                },
+                error: function () {
+                    // Hiển thị thông báo lỗi
+                    showNotification("Lỗi trong khi cập nhật giỏ hàng", false);
+                }
+            });
+        });
+
+        // validate thanh toan
+        $("#checkoutButton").click(function (e) {
+            var cartCount = parseInt($('#CartCount').text());
+
+            if (isNaN(cartCount) || cartCount <= 0) {
+                e.preventDefault();
+                alert("Giỏ hàng đang trống, bạn cần thêm sản phẩm vào giỏ hàng.");
+            }
+        });
+    });
+
+    function showNotification(message, isSuccess) {
+        var notification = $("#notification-message");
+
+        if (isSuccess) {
+            notification.css("background-color", "#28a745");
+        } else {
+            notification.css("background-color", "#dc3545");
+        }
+
+        // Thiết lập nội dung thông báo
+        notification.text(message);
+
+        // Hiển thị thông báo và ẩn sau 3 giây
+        notification.fadeIn().delay(3000).fadeOut();
+    }
+
+    paypal.Buttons({
+        createOrder: function (data, actions) {
+
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '1.00'
+                    }
+                }]
+            });
+        },
+
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                //alert('Thanh toán thành công! Cảm ơn bạn, ' + details.payer.name.given_name + '!');
+                window.location.href = 'https://localhost:44367/Payment';
+
+                console.log('Chi tiết thanh toán:', details);
+            });
+        },
+
+        onCancel: function (data) {
+            alert('Thanh toán đã bị hủy!');
+        },
+        onError: function (err) {
+            console.error('Đã xảy ra lỗi:', err);
+            //alert('Có lỗi xảy ra trong quá trình thanh toán.');
+        }
+    }).render('#paypal-button-container'); // Hiển thị nút PayPal
+</script>
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+    <div class="container">
+
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
+
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col" width="120">Số lượng</th>
+                                <th scope="col" width="120">Giá </th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+
+                                foreach (var item in Model)
+                                {
+                                    <tr id="product-id-@item.Product.id" class="product-id">
+                                        <td>
+                                            <figure class="itemside">
+                                                <div class="aside"><img src="@item.Product.Avatar" class="img-sm"></div>
+                                                <figcaption class="info">
+                                                    <a href="#" class="title text-dark">@item.Product.Name</a>
+                                                    <p class="text-muted small">Size: XL, Color: blue, <br> Brand: Apple</p>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" max="100" value="@item.Quantity" id="product-quantity-@item.ProductId" class="product-quantity" data-product-id="@item.Product.id" />
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">@item.Product.Price</var>
+                                            </div> <!-- price-wrap .// -->
+                                        </td>
+                                        <td class="text-right">
+                                            <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                            <a href="#" class="btn btn-light remove-cart" data-product-id="@item.Product.id"> Xóa</a>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" class="text-right"><strong>Tổng giá giỏ hàng:</strong></td>
+                                    <td class="text-right"><strong id="totalCartPrice">@ViewBag.TotalCartPrice VND</strong></td>
+                                </tr>
+
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center">Không có sản phẩm trong giỏ hàng</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+                <div class="card-body border-top">
+                    <a href="@Url.Action("Index", "Payment")" id="checkoutButton" class="btn btn-primary float-md-right">
+                        Thanh Toán <i class="fa fa-chevron-right"></i>
+                    </a>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        <div id="paypal-button-container"></div>
+                    }
+
+
+
+                    <a href="@Url.Action("Index","Home")" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Tiếp tục mua hàng </a>
+                </div>
+                </div> <!-- card.// -->
+
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+                </div>
+
+            </main> <!-- col.// -->
+            <aside class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Have coupon?</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="" placeholder="Coupon code">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary">Áp dụng</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div> <!-- card-body.// -->
+                </div>  <!-- card .// -->
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Total:</dt>
+                            <dd class="text-right" id="totalCartPriceSummary">@ViewBag.TotalCartPrice VND</dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="~/Content/images/misc/payments.png" height="26">
+                        </p>
+
+                    </div> <!-- card-body.// -->
+                </div>  <!-- card .// -->
+            </aside> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+
+<!-- Modal HTML -->
+<div id="confirmDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteLabel">Xác Nhận Xóa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn chắc chắn có muốn xóa sản phẩm khỏi giỏ hàng này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không </button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Có </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Container thông báo -->
+<div id="notification-container">
+    <!-- Thông báo -->
+    <div id="notification-message"></div>
+</div>

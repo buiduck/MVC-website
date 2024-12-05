@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Custom CSS */
+
+    .container-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+        padding: 20px;
+       
+    }
+
+    form#contact {
+        background: #fff;
+        padding: 2em;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+        margin-left: 470px;
+    }
+
+        form#contact h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        form#contact h4 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form#contact fieldset {
+            border: none;
+            margin: 0 0 15px;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form#contact input,
+        form#contact textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        form#contact button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6600; /* Màu cam */
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            form#contact button[type="submit"]:hover {
+                background-color: #e65500;
+            }
+
+        form#contact input:focus,
+        form#contact textarea:focus {
+            border-color: #ff6600; /* Màu cam */
+            outline: none;
+        }
+</style>
+<!---->
+<div class="container">
+    <form id="contact" action="" method="post">
+        <h3>Quick Contact</h3>
+        <h4>Contact us today, and get reply with in 24 hours!</h4>
+        <fieldset>
+            <input placeholder="Your name" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+            <input placeholder="Your Email Address" type="email" tabindex="2" required>
+        </fieldset>
+        <fieldset>
+            <input placeholder="Your Phone Number" type="tel" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input placeholder="Your Web Site starts with http://" type="url" tabindex="4" required>
+        </fieldset>
+        <fieldset>
+            <textarea placeholder="Type your Message Here...." tabindex="5" required></textarea>
+        </fieldset>
+        <fieldset>
+            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+        </fieldset>
+    </form>
+
+
+</div>

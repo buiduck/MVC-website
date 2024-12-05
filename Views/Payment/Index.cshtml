@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Thanh toán thành công";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .success-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+
+    .success-message {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 30px;
+        max-width: 600px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .success-message h1 {
+            color: #28a745;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .success-message a.btn {
+            background-color: #28a745;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+            .success-message a.btn:hover {
+                background-color: #218838;
+            }
+</style>
+
+<div class="success-container">
+    <div class="success-message">
+        <h1>Đặt Hàng Thành Công !</h1>
+        <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi.</p>
+        <p>Chúng tôi đã nhận được đơn hàng của bạn và sẽ xử lý nó trong thời gian sớm nhất.</p>
+        <p>Thông tin chi tiết đơn hàng đã được gửi tới email của bạn và vui lòng thanh toán sau khi nhận đơn hàng tận tay.</p>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Tiếp tục mua sắm</a>
+    </div>
+</div>

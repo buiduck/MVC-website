@@ -1,0 +1,218 @@
+﻿@using PagedList;
+@using PagedList.Mvc';
+@model  PagedList.IPagedList<testwebmvc.Context.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        width: 100%;
+        background-color: #fff0f5;
+    }
+    h1 {
+        margin-left: 260px;
+        margin-bottom: 30px;
+        font-weight:700;
+    }
+
+    .table {
+        margin-left: 240px;
+    }
+
+    .action-link {
+        color: #ba55d3;
+        text-decoration: none;
+        border: 1px solid #007bff;
+        border: 1px solid #9370db;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+        .action-link:hover {
+            background-color: #9370db;
+            color: #ffffff;
+        }
+
+    .table img {
+        width: 150px;
+        height: 150px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    /* Phần số trang */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        .pagination a {
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid #6495ed; 
+            background-color: #6495ed; 
+            color: #fff; 
+            border-radius: 3px;
+        }
+
+            .pagination a:hover {
+                background-color: #008b8b; 
+            }
+
+        /* Trang hiện tại */
+        .pagination .active {
+            background-color: #6495ed; 
+            color: #fff;
+            border: 4px solid #ff6a00; 
+        }
+    .custom-button {
+        margin-left: 250px;
+    }
+
+        .custom-button .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #9370db;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+            .custom-button .btn:hover {
+                background-color: #8e72a9;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+    /* Tim kiem */
+    .search-bar {
+        display: flex;
+        align-items: center;
+    }
+
+        .search-bar input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .search-bar .btn-search {
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #9370db;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+            .search-bar .btn-search:hover {
+                background-color: #7055a7;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+
+
+</style>
+<h1>Quản lý sản phẩm</h1>
+<table class="table">
+    <tr>
+        <p class="custom-button">
+            @Html.ActionLink("Thêm mới", "AddSP", null, new { @class = "btn btn-primary" })
+        </p>>
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+        {
+            <p class="search-bar" style="margin-left: 250px;">
+                Tìm kiếm sản phẩm @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Tìm kiếm" class="btn-search" />
+            </p>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Avatar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PriceDiscount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Slug)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().BrandId)
+        </th>
+
+        <th></th>
+    </tr> 
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <img src="@item.Avatar" alt="Ảnh sản phẩm" style="max-width: 150px; max-height: 150px;" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceDiscount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandId)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "action-link" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "action-link" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "action-link" })
+            </td>
+        </tr>
+    }
+</table>
+<div style="margin-left:250px;">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-warning" style="margin-left: 30px; margin-right:250px">
+            @ViewBag.Message
+        </div>
+    }
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+</div>

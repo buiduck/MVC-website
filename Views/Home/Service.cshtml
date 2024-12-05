@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Service";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Custom CSS */
+    .service-section {
+        padding: 4em 0;
+        background-color: #f5f5dc;
+        min-height: 70vh; 
+    }
+
+        .service-section h2 {
+            text-align: center;
+            margin-bottom: 3em;
+            color: #333;
+        }
+
+    .service-item {
+        perspective: 1000px;
+        margin-bottom: 2em; 
+    }
+
+    .service-item-inner {
+        position: relative;
+        width: 100%;
+        transition: transform 0.8s ease-in-out; 
+        transform-style: preserve-3d;
+    }
+
+    .service-item:hover .service-item-inner {
+        transform: rotateY(180deg);
+    }
+
+    .service-item-front, .service-item-back {
+        position: absolute;
+        width: 100%;
+        backface-visibility: hidden;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 1em;
+        background: #fff;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 250px; 
+    }
+
+        .service-item-front img {
+            max-width: 80%; 
+            height: auto;
+            margin-bottom: 1em;
+            padding-top: 1em; 
+        }
+
+        .service-item-front h3, .service-item-back h3 {
+            margin-bottom: 1em;
+            color: #007bff;
+            padding-top: 1em; 
+        }
+
+        .service-item-front p, .service-item-back p {
+            color: #555;
+            font-size: 14px; 
+            padding-top: 1em; 
+        }
+
+    .service-item-back {
+        transform: rotateY(180deg);
+    }
+</style>
+<main class="service-section">
+    <div class="container">
+        <h2>Dịch Vụ Của Chúng Tôi</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="service-item">
+                    <div class="service-item-inner">
+                        <div class="service-item-front">
+                            <img src="~/Content/images/Motorcycle Delivery Single Box_500px.png" alt="Dịch Vụ Giao Hàng">
+                            <h3>Dịch Vụ Giao Hàng</h3>                          
+                        </div>
+                        <div class="service-item-back">
+                            <h3>Dịch Vụ Giao Hàng</h3>
+                            <strong><p>Với đội ngũ giao hàng chuyên nghiệp và hệ thống rộng khắp, chúng tôi cam kết mang lại trải nghiệm mua sắm tốt nhất cho bạn.</p> </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-item">
+                    <div class="service-item-inner">
+                        <div class="service-item-front">
+                            <img src="~/Content/images/online_support_500px.png" alt="Hỗ Trợ Khách Hàng">
+                            <h3>Hỗ Trợ Khách Hàng</h3>                       
+                        </div>
+                        <div class="service-item-back">
+                            <h3>Hỗ Trợ Khách Hàng</h3>
+                            <strong> <p>Chúng tôi luôn lắng nghe và hỗ trợ bạn mọi lúc, đảm bảo bạn có trải nghiệm mua sắm tuyệt vời nhất.</p></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-item">
+                    <div class="service-item-inner">
+                        <div class="service-item-front">
+                            <img src="~/Content/images/refresh_500px.png" alt="Đổi Trả Hàng">
+                            <h3>Đổi Trả Hàng</h3>              
+                        </div>
+                        <div class="service-item-back">
+                            <h3>Đổi Trả Hàng</h3>
+                            <strong> <p>Nếu bạn không hài lòng với sản phẩm, chúng tôi sẽ hỗ trợ đổi trả hàng nhanh chóng và dễ dàng.</p></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

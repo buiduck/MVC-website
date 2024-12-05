@@ -1,0 +1,55 @@
+﻿@model testwebmvc.Models.HomeModel
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    /* Custom CSS for About Page */
+    .about-section {
+        padding: 4em 0;
+        background-color: #f5f5dc;
+    }
+
+        .about-section h2 {
+            text-align: center;
+            margin-bottom: 2em;
+            color: #333;
+        }
+    .about-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .about-text {
+        max-width: 600px;
+        margin: 0 1em;
+    }
+    .about-image {
+        max-width: 400px;
+        margin: 0 1em;
+    }
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+</style>
+<main class="about-section">
+    <div class="container">
+        <h2>Giới Thiệu Về Chúng Tôi</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Công Ty Chúng Tôi</h3>
+                <p>Chúng tôi là một công ty chuyên cung cấp các sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng. Với nhiều năm kinh nghiệm trong ngành, chúng tôi cam kết mang đến sự hài lòng và trải nghiệm mua sắm tuyệt vời.</p>
+                <h3>Đội Ngũ Của Chúng Tôi</h3>
+                <p>Đội ngũ của chúng tôi bao gồm các chuyên gia và nhân viên tận tâm, luôn sẵn sàng hỗ trợ và giải đáp mọi thắc mắc của khách hàng. Chúng tôi không ngừng nỗ lực để cải thiện dịch vụ và đáp ứng mọi nhu cầu của bạn.</p>
+            </div>
+            <div class="about-image">
+                <img src="~/Content/images/people_480px.png" alt="About Us Image">
+            </div>
+        </div>
+    </div>
+</main>
